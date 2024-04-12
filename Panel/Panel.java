@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Panel;
 
 import Scripts.ListaDoble;
@@ -56,15 +51,19 @@ public class Panel extends JFrame {
 
     public Panel() {
         super("Nutricion");
-        lista.leerDeArchivo("Datos.txt");
-        actual = lista.getNodoInicio();
+        if (!lista.archivoNulo("Datos.txt")) {
+            lista.leerDeArchivo("Datos.txt");
+            actual = lista.getNodoInicio();
+        } else {
+
+        }
 
         jPanel = new JPanel();
-        jPanel.setLayout(new GridLayout(1,1));
+        jPanel.setLayout(new GridLayout(1, 1));
         lblMensaje = new JLabel("         ");
         jPanel.add(lblMensaje);
         add(jPanel, BorderLayout.NORTH);
-        
+
         lblJPanel = new JPanel();
         lblJPanel.setLayout(new GridLayout(5, 1));
         lblNombre = new JLabel("Nombre:");
@@ -79,19 +78,35 @@ public class Panel extends JFrame {
         lblJPanel.add(lblIMC);
         add(lblJPanel, BorderLayout.WEST);
 
-        txtJPanel = new JPanel();
-        txtJPanel.setLayout(new GridLayout(5, 1));
-        txtNombre = new JTextField(lista.getNombre(actual));
-        txtJPanel.add(txtNombre);
-        txtEdad = new JTextField(lista.getEdad(actual));
-        txtJPanel.add(txtEdad);
-        txtPeso = new JTextField(lista.getPeso(actual));
-        txtJPanel.add(txtPeso);
-        txtAltura = new JTextField(lista.getAltura(actual));
-        txtJPanel.add(txtAltura);
-        txtIMC = new JTextField(lista.getIMC(actual));
-        txtJPanel.add(txtIMC);
-        add(txtJPanel, BorderLayout.CENTER);
+        if (!lista.archivoNulo("Datos.txt")) {
+            txtJPanel = new JPanel();
+            txtJPanel.setLayout(new GridLayout(5, 1));
+            txtNombre = new JTextField(lista.getNombre(actual));
+            txtJPanel.add(txtNombre);
+            txtEdad = new JTextField(lista.getEdad(actual));
+            txtJPanel.add(txtEdad);
+            txtPeso = new JTextField(lista.getPeso(actual));
+            txtJPanel.add(txtPeso);
+            txtAltura = new JTextField(lista.getAltura(actual));
+            txtJPanel.add(txtAltura);
+            txtIMC = new JTextField(lista.getIMC(actual));
+            txtJPanel.add(txtIMC);
+            add(txtJPanel, BorderLayout.CENTER);
+        } else {
+            txtJPanel = new JPanel();
+            txtJPanel.setLayout(new GridLayout(5, 1));
+            txtNombre = new JTextField();
+            txtJPanel.add(txtNombre);
+            txtEdad = new JTextField();
+            txtJPanel.add(txtEdad);
+            txtPeso = new JTextField();
+            txtJPanel.add(txtPeso);
+            txtAltura = new JTextField();
+            txtJPanel.add(txtAltura);
+            txtIMC = new JTextField();
+            txtJPanel.add(txtIMC);
+            add(txtJPanel, BorderLayout.CENTER);
+        }
 
         btnJPanel = new JPanel();
         btnJPanel.setLayout(new GridLayout(1, 5));
@@ -106,9 +121,9 @@ public class Panel extends JFrame {
         btnJPanel.add(btnAnt);
         btnJPanel.add(btnSig);
         add(btnJPanel, BorderLayout.SOUTH);
-        
+
         lbl2JPanel = new JPanel();
-        lbl2JPanel.setLayout(new GridLayout(5,1));
+        lbl2JPanel.setLayout(new GridLayout(5, 1));
         lblContador = new JLabel("Persona " + contador + " de " + lista.size());
         lbl2JPanel.add(lblContador);
         add(lbl2JPanel, BorderLayout.EAST);
@@ -172,10 +187,10 @@ public class Panel extends JFrame {
         btnBuscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                try{
+                try {
                     actual = lista.buscar(JOptionPane.showInputDialog(null, "Ingresa el nombre", "busqueda", 1));
-                }catch (NullPointerException ex){
-                    
+                } catch (NullPointerException ex) {
+
                 }
                 txtNombre.setText(lista.getNombre(actual));
                 txtEdad.setText(lista.getEdad(actual));
